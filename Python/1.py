@@ -1,10 +1,12 @@
-v = int(input())
-t = int(input())
-s = int(v * t)
+sec = int(input())
+minutes = int((sec / 60) % 60)
+hours = int((sec / 3600) % 24)
+sec = sec % 60
 
-if s < 0:
-    print('0')
-if s > 108:
-    print(108)
-else:
-    print(s)
+if sec < 10:
+    sec = '0' + str(sec)
+
+if minutes < 10:
+    minutes = '0' + str(minutes)
+
+print(str(hours) + ':' + str(minutes) + ":" + str(sec))
