@@ -11,7 +11,7 @@ class BoxApp(App):
 		return b1
 	def btn_press(self, instance):
 		print('Button is pressed')
-		instance.text = 'I\'m  pressed!'	    
+		instance.text = 'I\'m  pressed!'
 
-if __name__ == "__name__":
+if __name__ == "__main__":
 	BoxApp().run()
