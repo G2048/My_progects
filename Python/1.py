@@ -1,3 +1,4 @@
+
 def RandomArray(n):
 	import random
 	Array = []
@@ -13,14 +14,14 @@ def RandomArray(n):
 
 
 def SortedArray(n):
-	A = RandomArray(n)
-
+	A = n
 	for i in range(len(A)-1):
 		for z in range(len(A)-i-1):
 			print(A)			
 			if A[z] > A[z+1]:
 				A[z], A[z+1] = A[z+1], A[z]
+
 import random
 #n = input('Input the number:')
 n = random.randint(2,20)
-SortedArray(n)
+SortedArray(RandomArray(n))
