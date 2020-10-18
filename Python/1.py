@@ -1,27 +1,32 @@
+import pprint
+import requests
+from dateutil.parser import parse
 
-def RandomArray(n):
-	import random
-	Array = []
-
-	i = 0
-	while i <= n:
-		number = random.randint(0,200)
-		Array.append(number)
-		#print(Array[i])	
-		i+=1
-
-	return Array
+class YahooWeatherForecast:
+	def get (self, city):
+		url = f"https://weather-ydn-yql.media.yahoo.com/forecastrss?location={city},ca&format=json"
+		data = requests.get(url).json()
+		forecast_data = data["forecasts", 'current_observation', 'atmosphere', 'astronomy', 'condition']
+		forecast = []
+		for day in forecast_data:
+			forecast.append({'date': day_data['date'], 'high_temp': day_data['high']})
+		return forecast	
 
 
-def SortedArray(n):
-	A = n
-	for i in range(len(A)-1):
-		for z in range(len(A)-i-1):
-			print(A)			
-			if A[z] > A[z+1]:
-				A[z], A[z+1] = A[z+1], A[z]
+class CityInfo:
+	def __init__ (self, city, weather_forecast = None):
+		self.city = city
+		self._weather_forecast = weather_forecast or YahooWeatherForecast()
 
-import random
-#n = input('Input the number:')
-n = random.randint(2,20)
-SortedArray(RandomArray(n))
+	def weather_forecast (self):
+		return self._weather_forecast.get(self.city)
+
+def _main():
+	city_info = CityInfo("Moscow",)
+	forecast = city_info.weather_forecast()
+	pprint.pprint(forecast)
+
+
+
+if __name__ == "__main__":
+	_main()
