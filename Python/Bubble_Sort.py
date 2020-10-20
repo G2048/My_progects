@@ -4,7 +4,7 @@ def RandomArray(n):
 	Array = []
 	i = 0
 	while i <= n:
-		number = random.randint(0,200)
+		number = random.randint(0,50)
 		Array.append(number)
 		#print(Array[i])	
 		i+=1
@@ -15,7 +15,7 @@ def SortedArray(n):
 	A = n
 	for i in range(len(A)-1):
 		for z in range(len(A)-i-1):
-			print(A)			
+			print(A)
 			if A[z] > A[z+1]:
 				A[z], A[z+1] = A[z+1], A[z]
 
