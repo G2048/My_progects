@@ -3,16 +3,16 @@ import turtle
 #turtle.mainloop()
 turtle.hideturtle() # to hide the painter
 #turtle.tracer(0)
-turtle.penup()
+turtle.up()
 turtle.setposition(0, 30)
-turtle.pendown()
+turtle.down()
 turtle.pensize(2)
 turtle.speed(1000)
 
 axiom = 'F+F+F+F'
 tempAx = ''
 
-for k in range(10):
+for k in range(3):
 	ln = len(axiom)
 	for i in range(ln):
 		if axiom[i] == '+':
