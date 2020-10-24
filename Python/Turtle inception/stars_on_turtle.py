@@ -40,5 +40,4 @@ x = 144 #exterior angle of each star
 angle = 18 #angle for rotation for the spiral
 
 draw(n, x, angle)
-
-input()
+turtle.exitonclick()

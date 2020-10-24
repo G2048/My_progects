@@ -20,4 +20,4 @@ def polygon(n, length):
 for i in range (3,11):
 	polygon(i, length)
 
-turtle.mainloop()
+turtle.exitonclick()

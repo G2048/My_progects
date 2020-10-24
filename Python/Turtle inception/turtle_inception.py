@@ -20,4 +20,4 @@ for i in range(100):
     joi.right(10)
     length += 2
 
-turtle.mainloop()
+turtle.exitonclick()

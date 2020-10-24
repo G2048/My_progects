@@ -1,13 +1,15 @@
 num = int(input())
 
 def fibo (n):
-	a1 = 1
-	a2 = 0
-
+	a1 = 0
+	a2 = 1
+	c = 0 
 	for i in range(0,n):
-		print(a2, end = ' ')
+		print(a1, end = ' ')
 		
-		a2, a1 = a1, a1 + a2
+		c = a1
+		a1 = a2
+		a2 = a1  + c
 
 
 fibo (num)
