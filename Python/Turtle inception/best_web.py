@@ -1,9 +1,10 @@
 import turtle
 
-#turtle.setup(width=600, height=500)
-turtle.reset()
+#turtle.setup(width=2560, height=1440)
+#turtle.reset()
+turtle.pensize(1)
 turtle.hideturtle()
-turtle.speed(0)
+turtle.speed(1000)
 turtle.bgcolor('black')
 
 c = x = 0
@@ -39,11 +40,9 @@ colors = [
 
 while x < 1000:
 	idx = int(c)
-	color = colors [idx]
-	turtle.color(color)
+	turtle.color(colors [idx])
 	turtle.forward(x)
 	turtle.right(98)
 	x +=1
 	c += 0.1
-
 turtle.exitonclick()	
