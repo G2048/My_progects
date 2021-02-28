@@ -1,6 +1,6 @@
 from pyowm import OWM
 
-owm = OWM('650b6226d880752836b402f320040f66')  # You MUST provide a valid API key
+owm = OWM('OWM_API')  # You MUST provide a valid API key
 
 city= input('Введите город/страну: ')
 

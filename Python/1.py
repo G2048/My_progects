@@ -1,32 +1,21 @@
-import pprint
 import requests
-from dateutil.parser import parse
+from bs4 import BeautifulSoup
 
-class YahooWeatherForecast:
-	def get (self, city):
-		url = f"https://weather-ydn-yql.media.yahoo.com/forecastrss?location={city},ca&format=json"
-		data = requests.get(url).json()
-		forecast_data = data["forecasts", 'current_observation', 'atmosphere', 'astronomy', 'condition']
-		forecast = []
-		for day in forecast_data:
-			forecast.append({'date': day_data['date'], 'high_temp': day_data['high']})
-		return forecast	
+URL = 'https://www.cossa.ru/imarketing/261951/'
+HEADERS = {'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0', 'accept': '*/*'}
 
+def get_html (url, params = None):
+	r = requests.get(url, headers = HEADERS, params = params)
+	return r
 
-class CityInfo:
-	def __init__ (self, city, weather_forecast = None):
-		self.city = city
-		self._weather_forecast = weather_forecast or YahooWeatherForecast()
+def get_content(html):
+		soup = BeautifulSoup(html, 'html.parser')
 
-	def weather_forecast (self):
-		return self._weather_forecast.get(self.city)
+def pars ():
+	html = get_html(URL)
+	if html.status_code == 200:
+		get_content(html.text)
+	else:
+		print('ERROR!')	
 
-def _main():
-	city_info = CityInfo("Moscow",)
-	forecast = city_info.weather_forecast()
-	pprint.pprint(forecast)
-
-
-
-if __name__ == "__main__":
-	_main()
+pars()

@@ -1,15 +1,5 @@
-
-def RandomArray(n):
-	import random
-	Array = []
-	i = 0
-	while i <= n:
-		number = random.randint(0,50)
-		Array.append(number)
-		#print(Array[i])	
-		i+=1
-	return Array
-
+import RandomArray
+import random
 
 def SortedArray(n):
 	A = n
@@ -19,7 +9,9 @@ def SortedArray(n):
 			if A[z] > A[z+1]:
 				A[z], A[z+1] = A[z+1], A[z]
 
-import random
 #n = input('Input the number:')
+#Ar = [5,6,7,9,0,1]
+
 n = random.randint(2,20)
-SortedArray(RandomArray(n))
+
+SortedArray(RandomArray.RandomArray(n))

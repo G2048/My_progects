@@ -3,8 +3,8 @@ from pyowm import OWM
 import requests
 
 
-owm = OWM('650b6226d880752836b402f320040f66')
-bot = telebot.TeleBot("1377245085:AAFrjEwTAqN1vc8Ni2ULF58zhRlhbdj3uzg")
+owm = OWM('OWM_API')
+bot = telebot.TeleBot("API")
 def get_location_info():
     return requests.get("http://ip-api.com/json/").json()
 
