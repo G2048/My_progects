@@ -1,5 +1,4 @@
 import RandomArray
-import RandomArray
 import random
 
 n = random.randint(2,20)
