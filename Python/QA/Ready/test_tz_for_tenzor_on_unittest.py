@@ -113,4 +113,6 @@ class YandexRuSearch(unittest.TestCase):
 		print("Прогон теста прошел успешно!")
 
 if __name__ == "__main__":
-	unittest.main(verbosity = 1)
+	#unittest.main(verbosity = 1)
+	suite = unittest.TestLoader().loadTestsFromTestCase(YandexRuSearch)
+	unittest.TextTestRunner(verbosity=1).run(suite)
