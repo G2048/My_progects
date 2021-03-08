@@ -1,0 +1,1 @@
+You maybe run to test across "nosetests". Example: "nosetests test_tz_for_tenzor_on_unittest -v"

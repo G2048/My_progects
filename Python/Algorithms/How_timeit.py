@@ -13,5 +13,7 @@ for k in range(len(Array_1)):
 	Line_way(Array_1, k)
 """
 
-elapsed_time = timeit.timeit(code_to_test, number=10)/10
-print(elapsed_time)
+elapsed_time = timeit.timeit(code_to_test, the_number_of_cycles=10)/10
+print(elapsed_time) # time in seconds
+
+# timeit() отключает сборщик мусора, который может исказить результаты.
