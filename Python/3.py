@@ -1,20 +1,44 @@
-
-Array_q = [3,5,8,1,2,9,4,7,6]
-Array_w = []
-
-def Quick_sort (ar):
-	print('\tlen = {}'.format(len((Array_q))))
-	count = 0
-
-	support = len(ar) - 1
-	left_support = support - 1
-	right_support = 0
-
-	for right_support in range(len(ar)):
-		#string = 'count = {}; right_support = {};'.format(count,right_support)
-		#print(string)
-		#count += 1
-		
+import re
+import time
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 
-Quick_sort(Array_q)
+class YandexRuSearch(unittest.TestCase):
+	"""This is test created for testing Yandex Ru Search"""
+
+	## Настройка обращения драйвера к браузеру
+	def setUp(self): 
+		self.browser = webdriver.Chrome()
+
+	## Метод теста всегда должен начинаться с фразы test!
+	def test_search_tenzor_at_yandex_ru(self):
+
+		## Создание ссылки на объект драйвера (смотри SetUp)
+		browser = self.browser
+		## Примечание: драйвер будет ждать пока страница не загрузится (событие "onload" игнорируется!)
+		browser.get('http://www.yandex.ru')
+		## Проверка содержит ли заголовок слово "Яндекс"
+		self.assertIn('Яндекс', browser.title)
+
+		elem = browser.find_element_by_name('text')
+		## Ввод текста в найденное поле "text"
+		elem.send_keys('Тензор') 
+
+		## Импорт из "selenium.webdriver.common.keys"
+		elem.send_keys(Keys.ENTER) 
+		## Проверка того, получили ли мы какой либо результат
+		assert "No results found." not in browser.page_source
+		time.sleep(3)	
+
+	
+
+if __name__ == "__main__":
+	#unittest.main(verbosity = 1)
+	suite = unittest.TestLoader().loadTestsFromTestCase(YandexRuSearch)
+	unittest.TextTestRunner(verbosity=1).run(suite)
