@@ -105,6 +105,12 @@ class YandexRuSearch(unittest.TestCase):
 		## Любуемся полученной красотой:))
 		time.sleep(5)
 
+	## Вызывается после каждого метода теста
+	def tearDown(self):
+		## "close" - закрывает одну вкладку, а "quit" - закроет браузер полностью	
+		self.browser.quit() 
+		print("Прогон теста окончен!")
+
 if __name__ == "__main__":
 	unittest.main(verbosity = 1)
 	#suite = unittest.TestLoader().loadTestsFromTestCase(YandexRuSearch)
