@@ -45,12 +45,6 @@ class YandexRuSearch(unittest.TestCase):
 		elem.send_keys(Keys.ENTER)
 		time.sleep(3)
 
-		'''
-			Парсит ВСЕ ссылки на страничке
-		elems = browser.find_elements_by_xpath("//a[@href]")
-		for elem in elems:
-			print(elem.get_attribute("href"))
-		'''
 		## Проверка на то принадлежат ли первые пять страниц "tensor.ru"
 		for i in range(1,6):
 			reference = browser.find_element_by_xpath('//*[@id="search-result"]/li[{}]//a'.format(i))
