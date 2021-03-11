@@ -13,7 +13,7 @@
 
 ### Примечание:
 		Тест реализован на "chromedriver" для браузера Chrome v. 89.0.4389.82 (x64) под ОС Windows 10
-								Selenium v.3.141.0 , Unittest2 1.1.0
+						Selenium v.3.141.0 , Unittest2 1.1.0
 	
 #### Установка ChromeDriver для Windows:
 1. Перейдите по ссылке и скачайте драйвер под нужную версию браузера: <https://chromedriver.chromium.org/downloads>

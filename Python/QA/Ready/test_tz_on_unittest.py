@@ -12,14 +12,18 @@ from selenium.webdriver.common.action_chains import ActionChains
 class YandexRuSearch(unittest.TestCase):
 	"""This is test created for testing Yandex Ru Search"""
 
+
 	## Настройка обращения драйвера к браузеру
 	def setUp(self):
+
 
 		self.browser = webdriver.Chrome()
 		self.browser.maximize_window()
 
+
 	## Метод теста всегда должен начинаться с фразы test!
 	def test_search_at_yandex_ru(self):
+
 
 		## Создание ссылки на объект драйвера (смотри SetUp)
 		browser = self.browser
@@ -39,34 +43,34 @@ class YandexRuSearch(unittest.TestCase):
 
 		### ENTEEERRRR!!!!!
 		elem.send_keys(Keys.ENTER)
-		count = 0
 		time.sleep(3)
-#//*[@id="search-result"]/li[5]/div/h2/a
-#search-result > li:nth-child(2) > div > h2 > a
-#search-result > li:nth-child(3) > div > h2 > a
-#search-result > li:nth-child(4) > div > h2 > a
-#search-result > li:nth-child(5) > div > div > div.wrapper__cell.wrapper__cell_type_content.clearfix > h2 > a
 
-		'''elems = browser.find_elements_by_xpath("//a[@href]")
+		'''
+			Парсит ВСЕ ссылки на страничке
+		elems = browser.find_elements_by_xpath("//a[@href]")
 		for elem in elems:
-			print(elem.get_attribute("href"))'''
-
-		for i in range(2,7):
-			reference = browser.find_element_by_xpath('//*[@id="search-result"]/li[{}]/div/h2/a'.format(i))
-			link = reference.get_attribute('href')    # //*[@id="search-result"]/li[4]/div/div/div[2]/h2/a
-			print(count, i)
-			count = count + 1
-			print(link)
-			#browser.get(link)"""
-
+			print(elem.get_attribute("href"))
+		'''
+		## Проверка на то принадлежат ли первые пять страниц "tensor.ru"
+		for i in range(1,6):
+			reference = browser.find_element_by_xpath('//*[@id="search-result"]/li[{}]//a'.format(i))
+			link = reference.get_attribute('href')
+			if re.match( r'https://tensor.ru', link):
+				print('{} Страница принадлежит "tensor.ru"!'.format(i))
+			else:
+				print('{} Страница не принадлежит "tensor.ru"!'.format(i))
+			#print(link)
+			#browser.quit()
 
 		## Импорт из "selenium.webdriver.common.keys"
 		## Проверка того, получили ли мы какой либо результат
 		assert "No results found." not in browser.page_source
 		time.sleep(3)	
 
+
 	## Метод теста всегда должен начинаться с фразы test!
 	def test_search_images_at_yandex_ru(self):
+
 
 		browser = self.browser
 		browser.get('https://yandex.ru')
@@ -91,7 +95,6 @@ class YandexRuSearch(unittest.TestCase):
 			print('Открыта не верная страница!')
 			#browser.quit()
 
-		
 		img = browser.find_element_by_xpath('/html/body/div[6]/div[1]/div[1]/div/div/div[1]/div[1]/a')
 		text_in_placeholder_0 = img.get_attribute('text') # Получаем текст с первой картинки для дальнейшего сравнения
 
@@ -158,3 +161,4 @@ if __name__ == "__main__":
 	unittest.main(verbosity = 1)
 	#suite = unittest.TestLoader().loadTestsFromTestCase(YandexRuSearch)
 	#unittest.TextTestRunner(verbosity=1).run(suite)
+
