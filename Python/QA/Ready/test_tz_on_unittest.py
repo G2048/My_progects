@@ -1,30 +1,26 @@
-import re
-import time
-import unittest
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium import webdriver
+import unittest
+import re
 
 
 class YandexRuSearch(unittest.TestCase):
 	"""This is test created for testing Yandex Ru Search"""
 
-
 	## Настройка обращения драйвера к браузеру
 	def setUp(self):
 
-
 		self.browser = webdriver.Chrome()
 		self.browser.maximize_window()
-
+		self.browser.implicitly_wait(5)
 
 	## Метод теста всегда должен начинаться с фразы test!
 	def test_search_at_yandex_ru(self):
-
-
+     
 		## Создание ссылки на объект драйвера (смотри SetUp)
 		browser = self.browser
 		## Примечание: драйвер будет ждать пока страница не загрузится (событие "onload" игнорируется!)
@@ -36,37 +32,34 @@ class YandexRuSearch(unittest.TestCase):
 		## Ввод текста в найденное поле "text"
 		elem.send_keys('Тензор')
 
-		# Получаем локатор всплывающей подсказки, темсамым проверяя ее наличие
+		# Получаем локатор всплывающей подсказки, тем самым проверяя ее наличие
 		locator = (By.CSS_SELECTOR, '.mini-suggest__popup_visible')
 		wait = WebDriverWait(browser, 3)
-		elements = wait.until(EC.visibility_of_element_located(locator))
+		wait.until(EC.visibility_of_element_located(locator))
 
 		### ENTEEERRRR!!!!!
 		elem.send_keys(Keys.ENTER)
-		time.sleep(3)
 
 		## Проверка на то принадлежат ли первые пять страниц "tensor.ru"
 		for i in range(1,6):
 			reference = browser.find_element_by_xpath('//*[@id="search-result"]/li[{}]//a'.format(i))
 			link = reference.get_attribute('href')
 			if re.match( r'https://tensor.ru', link):
-				print('{} Страница принадлежит "tensor.ru"!'.format(i))
+				print('Страница №{} принадлежит "tensor.ru"!'.format(i))
 			else:
-				print('{} Страница не принадлежит "tensor.ru"!'.format(i))
+				print('Страница №{} не принадлежит "tensor.ru"!'.format(i))
 			#print(link)
 			#browser.quit()
 
-		## Импорт из "selenium.webdriver.common.keys"
 		## Проверка того, получили ли мы какой либо результат
 		assert "No results found." not in browser.page_source
-		time.sleep(3)	
 
 
 	## Метод теста всегда должен начинаться с фразы test!
 	def test_search_images_at_yandex_ru(self):
 
-
 		browser = self.browser
+		browser.implicitly_wait(5)
 		browser.get('https://yandex.ru')
 		assert 'Яндекс' in browser.title
 
@@ -80,7 +73,6 @@ class YandexRuSearch(unittest.TestCase):
 
 		## Переходим на вторую вкладку:
 		tab_2 = browser.switch_to.window(tabs[1])
-		time.sleep(2)
 
 		# Проверка на содержание "https://yandex.ru/images/" в текущей ссылке
 		if re.match(r'https://yandex.ru/images/', browser.current_url):
@@ -98,7 +90,6 @@ class YandexRuSearch(unittest.TestCase):
 		text_in_placeholder = browser.find_element_by_xpath('/html/body/header/div/div[1]/div[2]/form/div[1]/span/span/input')
 		text_in_placeholder_1 = text_in_placeholder.get_attribute('value')
 
-		time.sleep(3)
 		# Сравниваем тексты из плейсхолдеров
 		self.assertEqual(text_in_placeholder_0, text_in_placeholder_1), "Мы не на той странице Джо!!! (Тексты из placeholders not equal!)" 
 
@@ -111,12 +102,11 @@ class YandexRuSearch(unittest.TestCase):
 		## Так как кнопка картинки прогружается не сразу поставим функцию "ожидание":
 		wait = WebDriverWait(browser, 5)
 		## Для определенного элемента задаем "ожидание", пока не найдется нужный элемент
-		element = wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, 'Открыть')))
+		wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, 'Открыть')))
 		# browser.find_element_by_partial_link_text('Открыть').click() - НЕ РАБОТАЕТ!!!
 
 		# Проводим проверку того открылась ли картинка
 		self.assertIn(text_in_placeholder_1, browser.title),  'Картинка не открылась!!!'
-		time.sleep(3)
 
 		# Получаем url картинки для проведения проверки
 		url_image_before_0 = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[3]/div/img') 
@@ -126,11 +116,9 @@ class YandexRuSearch(unittest.TestCase):
 		button_next = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
 		button_next.click()
 
-		time.sleep(1)
 		button_back = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[1]/i')
 		button_back.click()
 
-		time.sleep(1)
 		# Получаем url картинки для проведения проверки
 		url_image_after_0 = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[3]/div/img') 
 		url_image_after = url_image_after_0.get_attribute('src')
@@ -141,18 +129,13 @@ class YandexRuSearch(unittest.TestCase):
 		## Закрываем окно картнки:
 		browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[2]').click()
 
-		## Любуемся полученной красотой:))
-		time.sleep(5)
-
 	## Вызывается после каждого метода теста
 	def tearDown(self):
 		## "close" - закрывает одну вкладку, а "quit" - закроет браузер полностью	
 		self.browser.quit() 
 		print("Прогон теста окончен!")
-		time.sleep(2)
 
 if __name__ == "__main__":
 	unittest.main(verbosity = 1)
 	#suite = unittest.TestLoader().loadTestsFromTestCase(YandexRuSearch)
 	#unittest.TextTestRunner(verbosity=1).run(suite)
-
