@@ -78,25 +78,21 @@ class YandexRuSearch(unittest.TestCase):
 		self.assertEqual( text_in_title, text ), "WE ARE ON THE WRONG PAGE JO!!! (Text from the search list is wronger!)"
   
 		first_image = (By.CLASS_NAME, 'serp-item__link')
-		wait.until(EC.element_to_be_clickable(first_image)) #.click()
+		wait.until(EC.element_to_be_clickable(first_image))
 
 		# We finding the list of an (elementS!!!) avalible pictures
 		img_1 = browser.find_elements_by_class_name('serp-item__link')
 		img_link = img_1[0].get_attribute('href')
-		browser.get(img_link)
 
-		# As the image button isn't loaded, we set the "wait" function:
-		button = (By.PARTIAL_LINK_TEXT, 'Открыть')
-		wait.until(EC.element_to_be_clickable(button))
-		#browser.refresh()
 		self.assertIn(text_in_title, browser.title),  'Image wasn\'t opened!!!'
 
 		# LOKING FOR THE STUPID YANDEX BUTTON!
-		#button_next = (
-		#	By.XPATH, '/html/body/div[17]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
-		#wait.until(EC.element_to_be_clickable(button_next)).click()
-		button_next = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
-		button_next.click()
+		button_next = (
+			By.CLASS_NAME,'')
+		wait.until(EC.element_to_be_clickable(button_next)).click()
+		#button_next = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
+		#button_next.click()
+
 		button_back = (
 			By.XPATH, '/html/body/div[17]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[1]/i')
 		wait.until(EC.visibility_of_element_located(button_back)).click()

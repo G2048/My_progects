@@ -99,12 +99,6 @@ class YandexRuSearch(unittest.TestCase):
 		img_link = img_1[0].get_attribute('href')
 		browser.get(img_link)
 
-		## Так как кнопка картинки прогружается не сразу поставим функцию "ожидание":
-		wait = WebDriverWait(browser, 5)
-		## Для определенного элемента задаем "ожидание", пока не найдется нужный элемент
-		wait.until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, 'Открыть')))
-		# browser.find_element_by_partial_link_text('Открыть').click() - НЕ РАБОТАЕТ!!!
-
 		# Проводим проверку того открылась ли картинка
 		self.assertIn(text_in_placeholder_1, browser.title),  'Картинка не открылась!!!'
 
