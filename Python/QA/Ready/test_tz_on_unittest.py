@@ -50,8 +50,8 @@ class YandexRuSearch(unittest.TestCase):
 				print('Страница №{} не принадлежит "tensor.ru"!'.format(i))
 			#print(link)
 			#browser.quit()
-
 		## Проверка того, получили ли мы какой либо результат
+
 		assert "No results found." not in browser.page_source
 
 
@@ -72,7 +72,7 @@ class YandexRuSearch(unittest.TestCase):
 		tabs = browser.window_handles
 
 		## Переходим на вторую вкладку:
-		tab_2 = browser.switch_to.window(tabs[1])
+		browser.switch_to.window(tabs[1])
 
 		# Проверка на содержание "https://yandex.ru/images/" в текущей ссылке
 		if re.match(r'https://yandex.ru/images/', browser.current_url):

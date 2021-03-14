@@ -1,6 +1,5 @@
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdr
-iver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -26,12 +25,11 @@ class YandexRuSearch(unittest.TestCase):
 		elem = browser.find_element_by_name('text')
 		elem.send_keys('Тензор')
 
-		# Получаем локатор всплывающей подсказки, тем самым проверяя ее наличие
+		# Getting location popup hint to check what we found it
 		locator = (By.CSS_SELECTOR, '.mini-suggest__popup_visible')
 		wait.until(EC.visibility_of_element_located(locator))
 
 		elem.send_keys(Keys.ENTER)
-		#time.sleep(3)
 
 		for i in range(1,6):
 			reference = browser.find_element_by_xpath('//*[@id="search-result"]/li[{}]//a'.format(i))
@@ -41,7 +39,7 @@ class YandexRuSearch(unittest.TestCase):
 			else:
 				print('Page is number {} haven\'t adress of "tensor.ru"! url: {}'.format(i, link))
 
-		## Проверка того, получили ли мы какой либо результат
+		# Checking if we got any result
 		assert "No results found." not in browser.page_source
 
 
@@ -49,63 +47,65 @@ class YandexRuSearch(unittest.TestCase):
 		browser = self.browser
 		browser.get('https://yandex.ru')
 		assert 'Яндекс' in browser.title
-		wait = WebDriverWait(browser, 5)
-  
-		images = browser.find_element_by_link_text('Картинки')
-		images.click()
-		#images = (By.CSS_SELECTOR, '.home-link_black_yes')
-		#wait.until(EC.element_to_be_clickable(images))
+		wait = WebDriverWait(browser, 10)
+		# Clicking into "images"
+		images = (By.PARTIAL_LINK_TEXT, 'Картинки')
+		wait.until(EC.element_to_be_clickable(images)).click()
 
 		tabs = browser.window_handles
 		browser.switch_to.window(tabs[1])
-
+		# Verification
 		if re.match(r'https://yandex.ru/images/', browser.current_url):
 			print('The correct page is open')
 		else:
 			print('The incorecct page is open')
 			#browser.quit()
+		# Finding text from the first popular image
+		text_from_first_popular_image = browser.find_element_by_xpath(
+			'/html/body/div[6]/div[1]/div[1]/div/div/div[1]/div[1]/a')
+		text = text_from_first_popular_image.get_attribute('text')
+   
+		# Finding of The first popular image
+		img = (By.CLASS_NAME, 'PopularRequestList-SearchText')
+		wait.until(EC.element_to_be_clickable(img)).click()
+  
+		# Opening the first page of popular images
+		img_link = (By.CLASS_NAME, 'serp-item__link')
+		wait.until(EC.element_to_be_clickable(img_link)).click()
+		# Finding of element "text" from the search window
+		text_in_title = browser.find_element_by_xpath('/html/body/header/div/div[1]/div[2]/form/div[1]/span/span/input').get_attribute('value')
+		# text_in_title = browser.page_source # Interesting is function
+		self.assertEqual( text_in_title, text ), "WE ARE ON THE WRONG PAGE JO!!! (Text from the search list is wronger!)"
+  
+		first_image = (By.CLASS_NAME, 'serp-item__link')
+		wait.until(EC.element_to_be_clickable(first_image)) #.click()
 
-		img = (By.CLASS_NAME, 'serp-item__link')
-		print(len(img))
-		for i in range(len(img)):
-			print(img[i])
-		wait.until(EC.elements_to_be_clickable(img[1]))
-
-		img_link = (By.NAME,'href')
-		wait.until(EC.element_to_be_clickable(img_link))
-
-		text_in_placeholder = (By.XPATH, '/html/body/header/div/div[1]/div[2]/form/div[1]/span/span/input')
-		wait.until(EC.element_to_be_clickable(text_in_placeholder))
-		self.assertEqual(img, text_in_placeholder), "WE ARE WRONG PAGE JO!!! (Texts from placeholders not equal!)" 
-
-		## Получение СПИСКА! (elementS!!!) доступных картинок!!!
+		# We finding the list of an (elementS!!!) avalible pictures
 		img_1 = browser.find_elements_by_class_name('serp-item__link')
 		img_link = img_1[0].get_attribute('href')
 		browser.get(img_link)
 
-		## Так как кнопка картинки прогружается не сразу поставим функцию "ожидание":
+		# As the image button isn't loaded, we set the "wait" function:
 		button = (By.PARTIAL_LINK_TEXT, 'Открыть')
-		element = wait.until(EC.element_to_be_clickable(button))
+		wait.until(EC.element_to_be_clickable(button))
+		#browser.refresh()
+		self.assertIn(text_in_title, browser.title),  'Image wasn\'t opened!!!'
 
-		self.assertIn(text_in_placeholder, browser.title),  'Image wasnt opened!!!'
-		#time.sleep(3)
-
-		url_image_before = browser.title
-		#wait.until(EC.element_to_be_clickable(url_image_before))
-
-		## ИЩЕМ ДУРАЦКИЕ КНОПКИ ЯНДЕКСА!
-		button_next = (By.XPATH, '/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
-		wait.until(EC.element_to_be_clickable(button_next))
-		button_back = (By.XPATH, '/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[1]/i')
-		wait.until(EC.visibility_of_element_located(button_back))
-		print(str(button_back.is_displayed()))
+		# LOKING FOR THE STUPID YANDEX BUTTON!
+		#button_next = (
+		#	By.XPATH, '/html/body/div[17]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
+		#wait.until(EC.element_to_be_clickable(button_next)).click()
+		button_next = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
+		button_next.click()
+		button_back = (
+			By.XPATH, '/html/body/div[17]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[1]/i')
+		wait.until(EC.visibility_of_element_located(button_back)).click()
 
 		url_image_after = browser.title
-		# Сравниваем текущий url и первой картинки, тем самым удостоверяясь что мы вернулись на первую картинку
-		self.assertEqual(
-			url_image_before, url_image_after), "These are not the droids you are looking for!!! (Imagenes is not equal =__=)"
+		# We are comparing a before url with the after url
+		self.assertEqual(url_image_before, url_image_after), "These are not the droids you are looking for!!! (Images is not equal =__=)"
 
-		## Закрываем окно картинки:
+		# Closing the image window
 		#browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[2]').click()
 		exit_button = (By.XPATH, '/html/body/div[14]/div[1]/div/div/div[2]')
 		wait.until(EC.element_to_be_clickable(exit_button))
