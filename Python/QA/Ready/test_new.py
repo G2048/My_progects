@@ -1,4 +1,3 @@
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -84,11 +83,10 @@ class YandexRuSearch(unittest.TestCase):
 		img_1 = browser.find_elements_by_class_name('serp-item__link')
 		img_link = img_1[0].get_attribute('href')
 
-		self.assertIn(text_in_title, browser.title),  'Image wasn\'t opened!!!'
+		self.assertIn(text_in_title, browser.title),  'Another Image is opened!!!'
 
 		# Getting url for further checking
 		url_image_before = browser.current_url
-		print(url_image_before)
 		# LOKING FOR THE STUPID YANDEX BUTTON!
 		button_next = (
 			By.XPATH, '/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]')
