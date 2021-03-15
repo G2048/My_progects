@@ -86,30 +86,30 @@ class YandexRuSearch(unittest.TestCase):
 
 		self.assertIn(text_in_title, browser.title),  'Image wasn\'t opened!!!'
 
+		# Getting url for further checking
+		url_image_before = browser.current_url
+		print(url_image_before)
 		# LOKING FOR THE STUPID YANDEX BUTTON!
 		button_next = (
-			By.CLASS_NAME,'')
-		wait.until(EC.element_to_be_clickable(button_next)).click()
-		#button_next = browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]/i')
-		#button_next.click()
+			By.XPATH, '/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[4]')
+		wait.until(EC.presence_of_element_located(button_next)).click()
 
 		button_back = (
-			By.XPATH, '/html/body/div[17]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[1]/i')
-		wait.until(EC.visibility_of_element_located(button_back)).click()
+			By.XPATH, '/html/body/div[14]/div[1]/div/div/div[3]/div/div[1]/div[1]/div[1]')
+		wait.until(EC.presence_of_element_located(button_back)).click()
 
-		url_image_after = browser.title
-		# We are comparing a before url with the after url
+		# We are comparing a before url with after
+		url_image_after = browser.current_url
 		self.assertEqual(url_image_before, url_image_after), "These are not the droids you are looking for!!! (Images is not equal =__=)"
 
 		# Closing the image window
-		#browser.find_element_by_xpath('/html/body/div[14]/div[1]/div/div/div[2]').click()
 		exit_button = (By.XPATH, '/html/body/div[14]/div[1]/div/div/div[2]')
-		wait.until(EC.element_to_be_clickable(exit_button))
+		wait.until(EC.element_to_be_clickable(exit_button)).click()
 
 	def tearDown(self):
 		self.browser.quit() 
 		"Run test is finished! YHY!"
-		#time.sleep(5)
+
 
 
 if __name__ == "__main__":
